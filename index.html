@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth scroll-pt-20">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>◯◯ラーメン（仮）｜ 蒲田・ラーメン／町中華サンプルサイト</title>
+  <meta name="description" content="蒲田駅から徒歩3分。豚骨醤油の一杯と、町中華の定食。券売機で気軽に、一人でもガッツリ。本サイトはSNSコンサル提案用のサンプルです。">
+
+  <!-- Fonts: Dela Gothic One / Anton / Zen Kaku Gothic New（v1・v2 と完全に別ファミリー） -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Anton&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sumi: '#1A1714',  // 墨黒
+            paper:'#FBF6EC',  // 生成り
+            aka:  '#D7281F',  // 朱赤
+            aka2: '#B01D16',  // 濃い赤
+            ki:   '#F2B705',  // 黄
+            ki2:  '#E8A200',  // 濃い黄
+            ai:   '#1F4E5F',  // 暖簾の藍
+            sub:  '#6B6258',  // くすみ
+            line: '#E4D9C5',  // 罫線
+          },
+          fontFamily: {
+            disp:  ['"Dela Gothic One"', 'sans-serif'],
+            latin: ['"Anton"', 'sans-serif'],
+            jp:    ['"Zen Kaku Gothic New"', '"Noto Sans JP"', 'sans-serif'],
+          },
+          letterSpacing: {
+            wider3: '.16em',
+            jumbo:  '.34em',
+          },
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    html, body { background: #FBF6EC; color: #1A1714; }
+    body { font-family: '"Zen Kaku Gothic New"', '"Noto Sans JP"', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* スクロールリビール */
+    .reveal { opacity: 0; transform: translateY(28px); transition: all 1s cubic-bezier(.16,1,.3,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 120ms; }
+    .reveal-delay-2 { transition-delay: 240ms; }
+    .reveal-delay-3 { transition-delay: 360ms; }
+
+    /* 斜めストライプ（黄×黒・赤×黄）— 勢いのある装飾 */
+    .stripe-kuro {
+      background-image: repeating-linear-gradient(-45deg, #1A1714 0 18px, #F2B705 18px 36px);
+    }
+    .stripe-aka {
+      background-image: repeating-linear-gradient(-45deg, #D7281F 0 16px, #B01D16 16px 32px);
+    }
+
+    /* 暖簾（のれん）— 上から垂れる布の表現 */
+    .noren {
+      background:
+        linear-gradient(#1F4E5F, #163b48);
+      position: relative;
+    }
+    .noren::after {
+      content: '';
+      position: absolute; left: 0; right: 0; bottom: -1px; height: 22px;
+      background:
+        radial-gradient(circle at 50% 0, transparent 11px, #FBF6EC 12px) repeat-x;
+      background-size: 24px 22px;
+    }
+
+    /* 巨大透かし文字 */
+    .kanji-bg {
+      font-family: '"Dela Gothic One"', sans-serif;
+      color: rgba(26,23,20,0.05);
+      line-height: .82; user-select: none; pointer-events: none;
+    }
+
+    /* 太アウトライン文字（黄地に黒縁・赤縁） */
+    .stroke-sumi { -webkit-text-stroke: 2.5px #1A1714; color: transparent; paint-order: stroke fill; }
+    .stroke-on-aka { color: #F2B705; text-shadow: 4px 4px 0 #1A1714; }
+
+    /* ハンコ風スタンプ（丸） */
+    .hanko {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 92px; height: 92px; border-radius: 9999px;
+      background: #D7281F; color: #FBF6EC;
+      font-family: '"Dela Gothic One"', sans-serif;
+      transform: rotate(-9deg);
+      box-shadow: 0 8px 22px -8px rgba(215,40,31,.6);
+      border: 2px solid #FBF6EC;
+    }
+
+    /* ナビ下線 */
+    .nav-a { position: relative; }
+    .nav-a::after { content: ''; position: absolute; left: 0; bottom: -5px; width: 0; height: 3px; background: #F2B705; transition: width .4s cubic-bezier(.16,1,.3,1); }
+    .nav-a:hover::after { width: 100%; }
+
+    /* 写真ホバー */
+    .dish-img { transition: transform 1.2s cubic-bezier(.16,1,.3,1), filter .5s ease; }
+    .dish-card:hover .dish-img { transform: scale(1.07); filter: saturate(1.12) contrast(1.04); }
+
+    /* 湯気アニメ */
+    @keyframes steam {
+      0% { transform: translateY(8px) scaleX(.9); opacity: 0; }
+      35% { opacity: .85; }
+      100% { transform: translateY(-34px) scaleX(1.25); opacity: 0; }
+    }
+    .steam span {
+      display: block; width: 7px; height: 30px; border-radius: 9999px;
+      background: linear-gradient(#FBF6EC, transparent);
+      filter: blur(3px); animation: steam 2.8s ease-in infinite;
+    }
+    .steam span:nth-child(2) { animation-delay: .9s; }
+    .steam span:nth-child(3) { animation-delay: 1.7s; }
+
+    /* マーキー */
+    @keyframes marquee { 0% { transform: translateX(0);} 100% { transform: translateX(-50%);} }
+    .marquee-track { display: inline-flex; gap: 48px; white-space: nowrap; animation: marquee 26s linear infinite; }
+
+    /* 価格ドット */
+    .price-row { display: flex; align-items: baseline; gap: 10px; }
+    .price-row .dots { flex: 1; border-bottom: 2px dotted #E4D9C5; transform: translateY(-4px); }
+
+    /* ボタン */
+    .btn-aka {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 30px; background: #D7281F; color: #FBF6EC;
+      font-family: '"Dela Gothic One"', sans-serif; font-size: 15px;
+      border: 3px solid #1A1714; box-shadow: 5px 5px 0 #1A1714;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn-aka:hover { transform: translate(2px,2px); box-shadow: 3px 3px 0 #1A1714; }
+    .btn-ki {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 15px 30px; background: #F2B705; color: #1A1714;
+      font-family: '"Dela Gothic One"', sans-serif; font-size: 15px;
+      border: 3px solid #1A1714; box-shadow: 5px 5px 0 #1A1714;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .btn-ki:hover { transform: translate(2px,2px); box-shadow: 3px 3px 0 #1A1714; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 28px; background: transparent; color: #FBF6EC;
+      font-weight: 700; font-size: 14px; letter-spacing: .08em;
+      border: 2px solid #FBF6EC; transition: all .25s ease;
+    }
+    .btn-ghost:hover { background: #FBF6EC; color: #1A1714; }
+
+    /* セクション番号 */
+    .sec-num { font-family: '"Anton"', sans-serif; color: #D7281F; font-size: 15px; letter-spacing: .12em; }
+
+    /* ステップ丸番号 */
+    .step-no {
+      width: 56px; height: 56px; border-radius: 9999px;
+      background: #F2B705; color: #1A1714; border: 3px solid #1A1714;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: '"Dela Gothic One"', sans-serif; font-size: 24px;
+      box-shadow: 4px 4px 0 #1A1714;
+    }
+
+    /* 価格の大札 */
+    .price-big { font-family: '"Anton"', sans-serif; font-feature-settings: 'lnum'; line-height: .9; }
+
+    @media (min-width: 768px) { .mobile-cta { display: none; } }
+
+    /* ヘッダー吸着 */
+    .nav-stick { transition: background-color .3s ease, box-shadow .3s ease, padding .3s ease; }
+    .nav-stick.scrolled { background: #FBF6EC; box-shadow: 0 2px 0 #1A1714; }
+    .nav-stick.scrolled .nav-inner { padding-top: 11px; padding-bottom: 11px; }
+  </style>
+</head>
+
+<body class="font-jp">
+
+  <!-- ============================== マーキー告知 ============================== -->
+  <div class="stripe-kuro text-sumi">
+    <div class="bg-ki/0">
+      <div class="bg-paper/0 py-2 overflow-hidden text-[12px] font-bold tracking-wider3" style="text-shadow:0 0 0;">
+        <div class="marquee-track">
+          <span><i class="fa-solid fa-bowl-food text-aka mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
+          <span><i class="fa-solid fa-fire text-aka mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
+          <span><i class="fa-solid fa-clock text-aka mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
+          <span><i class="fa-solid fa-box text-aka mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
+          <span><i class="fa-solid fa-bowl-food text-aka mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
+          <span><i class="fa-solid fa-fire text-aka mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
+          <span><i class="fa-solid fa-clock text-aka mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
+          <span><i class="fa-solid fa-box text-aka mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================== NAV ============================== -->
+  <nav id="nav" class="nav-stick fixed top-0 left-0 right-0 z-50">
+    <div class="nav-inner max-w-[1320px] mx-auto px-5 md:px-10 py-4 flex items-center justify-between">
+      <a href="#top" class="flex items-center gap-3">
+        <span class="hanko !w-12 !h-12 text-[15px] leading-none">麺</span>
+        <span class="leading-tight">
+          <span class="block font-disp text-lg md:text-xl text-sumi">◯◯ラーメン<span class="text-[11px] text-sub align-top ml-1">（仮）</span></span>
+          <span class="block text-[10px] tracking-jumbo text-aka font-bold">KAMATA RAMEN — SAMPLE</span>
+        </span>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8 text-[13px] font-bold">
+        <a href="#kodawari" class="nav-a">こだわり</a>
+        <a href="#menu" class="nav-a">お品書き</a>
+        <a href="#guide" class="nav-a">ご利用案内</a>
+        <a href="#takeout" class="nav-a">テイクアウト</a>
+        <a href="#info" class="nav-a">店舗情報</a>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="https://instagram.com/" target="_blank" rel="noopener"
+           class="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-sumi text-paper text-[12px] font-bold border-2 border-sumi hover:bg-aka transition-colors">
+          <i class="fa-brands fa-instagram"></i> @sample_kamata_ramen
+        </a>
+        <a href="#takeout" class="inline-flex items-center gap-2 px-4 py-2 bg-ki text-sumi text-[12px] font-bold border-2 border-sumi hover:bg-aka hover:text-paper transition-colors">
+          <i class="fa-solid fa-box"></i> 持ち帰り
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================== HERO ============================== -->
+  <header id="top" class="relative min-h-[100vh] overflow-hidden bg-sumi pt-16">
+    <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1600&q=80"
+         alt="湯気の立つ醤油ラーメン" class="absolute inset-0 w-full h-full object-cover opacity-70" loading="eager">
+    <div class="absolute inset-0" style="background:linear-gradient(90deg, rgba(26,23,20,.92) 0%, rgba(26,23,20,.55) 48%, rgba(26,23,20,.15) 100%), linear-gradient(0deg, rgba(26,23,20,.85) 0%, transparent 45%);"></div>
+
+    <!-- 右側ストライプ帯 -->
+    <div class="hidden md:block absolute top-0 right-0 w-10 h-full stripe-aka opacity-90"></div>
+
+    <!-- 湯気 -->
+    <div class="steam hidden md:flex absolute top-32 left-[44%] gap-4">
+      <span></span><span></span><span></span>
+    </div>
+
+    <div class="relative max-w-[1320px] mx-auto px-5 md:px-10 min-h-[calc(100vh-4rem)] flex flex-col justify-center">
+      <div class="max-w-2xl text-paper">
+        <div class="flex items-center gap-3 mb-6 reveal">
+          <span class="hanko text-[12px] leading-tight text-center">蒲田<br>の<br>魂</span>
+          <div>
+            <div class="font-latin text-ki text-xl tracking-wider3">SINCE 仮 · KAMATA EAST</div>
+            <div class="text-[12px] font-bold tracking-jumbo opacity-80">町中華 ＆ RAMEN</div>
+          </div>
+        </div>
+
+        <h1 class="reveal reveal-delay-1 font-disp leading-[1.05]">
+          <span class="block text-5xl md:text-7xl lg:text-8xl stroke-on-aka">ガツンと、</span>
+          <span class="block text-5xl md:text-7xl lg:text-8xl mt-2 text-paper">蒲田の<span class="text-aka">一杯</span>。</span>
+        </h1>
+
+        <p class="reveal reveal-delay-2 mt-7 text-[14px] md:text-[16px] leading-loose font-medium max-w-xl opacity-95">
+          朝炊きの豚骨に、キレのある醤油。<br>
+          がっつり食べたい日も、〆の一杯も。<br>
+          券売機でサッと、ひとりでも気兼ねなく。
+        </p>
+
+        <div class="reveal reveal-delay-3 mt-9 flex flex-wrap items-center gap-4">
+          <a href="#menu" class="btn-ki"><i class="fa-solid fa-bowl-food"></i> お品書きを見る</a>
+          <a href="#guide" class="btn-ghost"><i class="fa-solid fa-ticket"></i> はじめての方へ</a>
+        </div>
+
+        <div class="reveal reveal-delay-3 mt-8 inline-flex items-center gap-3 bg-ki text-sumi px-4 py-2 font-bold text-[13px] border-2 border-paper">
+          <i class="fa-solid fa-circle-check text-aka"></i> SNSフォローで「替え玉1玉」無料！
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden md:flex absolute bottom-7 left-1/2 -translate-x-1/2 items-center gap-3 text-paper/70 text-[11px] tracking-jumbo font-latin">
+      <span>SCROLL</span>
+      <i class="fa-solid fa-arrow-down-long animate-bounce"></i>
+    </div>
+  </header>
+
+  <!-- ============================== 人気訴求バンド ============================== -->
+  <section class="relative bg-aka text-paper border-y-4 border-sumi overflow-hidden">
+    <div class="absolute -right-8 -top-8 kanji-bg !text-paper/10 text-[200px]">麺</div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 py-12 grid grid-cols-2 md:grid-cols-4 gap-y-8 relative">
+      <div class="text-center md:border-r-2 md:border-paper/30 reveal">
+        <div class="price-big text-5xl md:text-6xl text-ki">120<span class="text-2xl ml-1">万</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 font-bold opacity-90 font-latin">BOWLS SERVED</div>
+        <div class="mt-1 text-[13px] font-bold">累計提供杯数（仮）</div>
+      </div>
+      <div class="text-center md:border-r-2 md:border-paper/30 reveal reveal-delay-1">
+        <div class="price-big text-5xl md:text-6xl text-ki">¥850<span class="text-2xl ml-1">〜</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 font-bold opacity-90 font-latin">FROM</div>
+        <div class="mt-1 text-[13px] font-bold">名物ラーメン 一杯</div>
+      </div>
+      <div class="text-center md:border-r-2 md:border-paper/30 reveal reveal-delay-2">
+        <div class="price-big text-5xl md:text-6xl text-ki">3<span class="text-2xl ml-1">分</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 font-bold opacity-90 font-latin">FROM STATION</div>
+        <div class="mt-1 text-[13px] font-bold">蒲田駅東口から</div>
+      </div>
+      <div class="text-center reveal reveal-delay-3">
+        <div class="price-big text-5xl md:text-6xl text-ki">14<span class="text-2xl ml-1">席</span></div>
+        <div class="mt-2 text-[11px] tracking-wider3 font-bold opacity-90 font-latin">COUNTER</div>
+        <div class="mt-1 text-[13px] font-bold">カウンター中心</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== こだわり ============================== -->
+  <section id="kodawari" class="relative py-20 md:py-28 overflow-hidden">
+    <div class="absolute -top-12 left-0 kanji-bg text-[220px] md:text-[340px]">技</div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 relative">
+      <div class="mb-14 reveal">
+        <div class="sec-num mb-2">— 01 / KODAWARI</div>
+        <h2 class="font-disp text-3xl md:text-5xl leading-tight">
+          うまさは、<span class="text-aka">愚直</span>に。
+        </h2>
+        <p class="mt-4 text-[14px] font-medium text-sub max-w-xl leading-relaxed">
+          奇をてらわず、毎日おなじ手間をかける。スープ・麺・チャーシュー、ぜんぶ店で仕込んでいます。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 md:gap-7">
+        <!-- スープ -->
+        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal" style="border-width:3px;box-shadow:7px 7px 0 #1A1714;">
+          <div class="overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?w=900&q=80" alt="濃厚スープ" class="dish-img w-full aspect-[4/3] object-cover">
+            <span class="absolute top-3 left-3 bg-ki text-sumi text-[11px] font-bold px-3 py-1 border-2 border-sumi">01</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-fire-burner text-aka text-2xl"></i>
+              <h3 class="font-disp text-xl">朝炊きスープ</h3>
+            </div>
+            <p class="mt-3 text-[13px] leading-relaxed text-sub">国産豚骨と鶏ガラを毎朝8時間。香味油は店主の手づくり。クセを抑えた、毎日でも飲み干せる一杯。</p>
+          </div>
+        </article>
+
+        <!-- 麺 -->
+        <article class="dish-card bg-sumi text-paper border-3 border-sumi overflow-hidden reveal reveal-delay-1" style="border-width:3px;box-shadow:7px 7px 0 #D7281F;">
+          <div class="overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?w=900&q=80" alt="自家製麺" class="dish-img w-full aspect-[4/3] object-cover">
+            <span class="absolute top-3 left-3 bg-aka text-paper text-[11px] font-bold px-3 py-1 border-2 border-paper">02</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-wheat-awn text-ki text-2xl"></i>
+              <h3 class="font-disp text-xl">中太ちぢれ麺</h3>
+            </div>
+            <p class="mt-3 text-[13px] leading-relaxed opacity-85">国産小麦をブレンドした自家製麺。スープをよく持ち上げる中太麺。かたさ・量は券売機の食券でお選びいただけます。</p>
+          </div>
+        </article>
+
+        <!-- チャーシュー -->
+        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal reveal-delay-2" style="border-width:3px;box-shadow:7px 7px 0 #1A1714;">
+          <div class="overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1632709810780-b5a4343cebec?w=900&q=80" alt="炙りチャーシュー" class="dish-img w-full aspect-[4/3] object-cover">
+            <span class="absolute top-3 left-3 bg-ki text-sumi text-[11px] font-bold px-3 py-1 border-2 border-sumi">03</span>
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-drumstick-bite text-aka text-2xl"></i>
+              <h3 class="font-disp text-xl">炙りチャーシュー</h3>
+            </div>
+            <p class="mt-3 text-[13px] leading-relaxed text-sub">低温調理した肩ロースを、注文ごとにバーナーで炙る。香ばしさととろける食感。増しトッピングも人気。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 暖簾区切り -->
+  <div class="noren h-14 md:h-16 relative">
+    <div class="max-w-[1320px] mx-auto h-full flex items-center justify-center">
+      <span class="font-disp text-paper text-lg md:text-2xl tracking-jumbo">お　し　な　が　き</span>
+    </div>
+  </div>
+
+  <!-- ============================== メニュー ============================== -->
+  <section id="menu" class="relative py-20 md:py-28 bg-paper">
+    <div class="absolute inset-0 stripe-kuro opacity-[0.04]"></div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 relative">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+        <div class="reveal">
+          <div class="sec-num mb-2">— 02 / MENU</div>
+          <h2 class="font-disp text-3xl md:text-5xl leading-tight">お品書き</h2>
+          <p class="mt-3 text-[13px] text-sub font-medium">価格は税込・券売機での前売り制です。</p>
+        </div>
+        <div class="reveal reveal-delay-1 flex items-center gap-4 text-[12px] font-bold text-sub">
+          <span><i class="fa-solid fa-fire text-aka mr-1"></i>看板</span>
+          <span><i class="fa-solid fa-star text-ki2 mr-1"></i>人気</span>
+        </div>
+      </div>
+
+      <!-- 看板の一杯（大札） -->
+      <div class="grid md:grid-cols-12 gap-6 md:gap-8 mb-16">
+        <div class="md:col-span-7 dish-card relative overflow-hidden border-3 border-sumi reveal" style="border-width:3px;box-shadow:9px 9px 0 #D7281F;">
+          <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=1600&q=80" alt="蒲田豚骨醤油ラーメン" class="dish-img w-full aspect-[4/3] object-cover">
+          <div class="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-paper" style="background:linear-gradient(0deg,rgba(26,23,20,.92),transparent);">
+            <div class="inline-flex items-center gap-2 bg-aka text-paper text-[11px] font-bold px-3 py-1 border-2 border-paper mb-3">
+              <i class="fa-solid fa-fire"></i> 看板メニュー
+            </div>
+            <h3 class="font-disp text-3xl md:text-4xl">蒲田 豚骨醤油</h3>
+            <div class="mt-3 flex items-end justify-between gap-4">
+              <p class="text-[13px] font-medium opacity-90 max-w-md leading-relaxed">朝炊きスープに、キレのある醤油ダレ。炙りチャーシュー2枚・味玉半分・のり付き。迷ったらこれ。</p>
+              <span class="price-big text-ki text-5xl md:text-6xl">¥850</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-5 flex flex-col gap-6">
+          <div class="dish-card relative overflow-hidden border-3 border-sumi reveal reveal-delay-1" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
+            <img src="https://images.unsplash.com/photo-1623341214825-9f4f963727da?w=900&q=80" alt="味噌ラーメン" class="dish-img w-full aspect-[16/10] object-cover">
+            <div class="absolute inset-x-0 bottom-0 p-5 text-paper" style="background:linear-gradient(0deg,rgba(26,23,20,.9),transparent);">
+              <div class="flex items-end justify-between">
+                <div>
+                  <div class="text-[10px] font-bold tracking-jumbo text-ki"><i class="fa-solid fa-star mr-1"></i>人気</div>
+                  <h4 class="font-disp text-xl mt-1">辛味噌ラーメン</h4>
+                </div>
+                <span class="price-big text-ki text-3xl">¥980</span>
+              </div>
+            </div>
+          </div>
+          <div class="dish-card relative overflow-hidden border-3 border-sumi reveal reveal-delay-2" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
+            <img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=900&q=80" alt="餃子" class="dish-img w-full aspect-[16/10] object-cover">
+            <div class="absolute inset-x-0 bottom-0 p-5 text-paper" style="background:linear-gradient(0deg,rgba(26,23,20,.9),transparent);">
+              <div class="flex items-end justify-between">
+                <div>
+                  <div class="text-[10px] font-bold tracking-jumbo text-ki"><i class="fa-solid fa-star mr-1"></i>人気</div>
+                  <h4 class="font-disp text-xl mt-1">羽根つき餃子（6個）</h4>
+                </div>
+                <span class="price-big text-ki text-3xl">¥420</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 価格表 3列 -->
+      <div class="grid md:grid-cols-3 gap-10 md:gap-14">
+        <!-- ラーメン -->
+        <div class="reveal">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-disp text-2xl">ラーメン</span>
+            <span class="flex-1 h-[3px] bg-sumi"></span>
+            <span class="font-latin text-aka text-lg">RAMEN</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-medium">
+            <li class="price-row"><span>蒲田 豚骨醤油 <span class="text-[10px] text-aka font-bold ml-1">看板</span></span><span class="dots"></span><span class="price-big text-lg">¥850</span></li>
+            <li class="price-row"><span>醤油ラーメン</span><span class="dots"></span><span class="price-big text-lg">¥780</span></li>
+            <li class="price-row"><span>辛味噌ラーメン <span class="text-[10px] text-ki2 font-bold ml-1">人気</span></span><span class="dots"></span><span class="price-big text-lg">¥980</span></li>
+            <li class="price-row"><span>塩ラーメン</span><span class="dots"></span><span class="price-big text-lg">¥820</span></li>
+            <li class="price-row"><span>つけ麺（並・中・大同額）</span><span class="dots"></span><span class="price-big text-lg">¥950</span></li>
+            <li class="price-row"><span>特製全部のせ</span><span class="dots"></span><span class="price-big text-lg">¥1,200</span></li>
+            <li class="price-row"><span>替え玉</span><span class="dots"></span><span class="price-big text-lg">¥150</span></li>
+          </ul>
+        </div>
+
+        <!-- トッピング -->
+        <div class="reveal reveal-delay-1">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-disp text-2xl">トッピング</span>
+            <span class="flex-1 h-[3px] bg-sumi"></span>
+            <span class="font-latin text-aka text-lg">TOPPING</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-medium">
+            <li class="price-row"><span>炙りチャーシュー増し</span><span class="dots"></span><span class="price-big text-lg">¥300</span></li>
+            <li class="price-row"><span>味玉</span><span class="dots"></span><span class="price-big text-lg">¥120</span></li>
+            <li class="price-row"><span>のり増し（5枚）</span><span class="dots"></span><span class="price-big text-lg">¥100</span></li>
+            <li class="price-row"><span>メンマ増し</span><span class="dots"></span><span class="price-big text-lg">¥150</span></li>
+            <li class="price-row"><span>ねぎ増し</span><span class="dots"></span><span class="price-big text-lg">¥120</span></li>
+            <li class="price-row"><span>背脂マシ</span><span class="dots"></span><span class="price-big text-lg">¥80</span></li>
+            <li class="price-row"><span>追い飯（〆）</span><span class="dots"></span><span class="price-big text-lg">¥130</span></li>
+          </ul>
+        </div>
+
+        <!-- 定食・町中華 -->
+        <div class="reveal reveal-delay-2">
+          <div class="flex items-center gap-3 mb-6">
+            <span class="font-disp text-2xl">定食・一品</span>
+            <span class="flex-1 h-[3px] bg-sumi"></span>
+            <span class="font-latin text-aka text-lg">TEISHOKU</span>
+          </div>
+          <ul class="space-y-3 text-[14px] font-medium">
+            <li class="price-row"><span>半チャーハンセット</span><span class="dots"></span><span class="price-big text-lg">¥350</span></li>
+            <li class="price-row"><span>炒飯（単品）</span><span class="dots"></span><span class="price-big text-lg">¥550</span></li>
+            <li class="price-row"><span>麻婆豆腐定食</span><span class="dots"></span><span class="price-big text-lg">¥880</span></li>
+            <li class="price-row"><span>唐揚げ定食（5個）</span><span class="dots"></span><span class="price-big text-lg">¥850</span></li>
+            <li class="price-row"><span>羽根つき餃子（6個） <span class="text-[10px] text-ki2 font-bold ml-1">人気</span></span><span class="dots"></span><span class="price-big text-lg">¥420</span></li>
+            <li class="price-row"><span>ライス（大盛無料）</span><span class="dots"></span><span class="price-big text-lg">¥150</span></li>
+            <li class="price-row text-aka"><span class="font-bold">＊定食はランチ11-15時限定</span><span class="dots"></span><span></span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-14 flex items-center gap-4 reveal">
+        <span class="flex-1 h-[2px] bg-line"></span>
+        <span class="text-[11px] tracking-jumbo text-sub font-bold">＊ 写真・価格はサンプルです</span>
+        <span class="flex-1 h-[2px] bg-line"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 券売機・並び方ガイド ============================== -->
+  <section id="guide" class="relative py-20 md:py-28 bg-sumi text-paper overflow-hidden">
+    <div class="absolute top-6 right-4 kanji-bg !text-paper/[0.05] text-[200px] md:text-[300px]">券</div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 relative">
+      <div class="mb-14 reveal">
+        <div class="sec-num !text-ki mb-2">— 03 / HOW TO</div>
+        <h2 class="font-disp text-3xl md:text-5xl leading-tight">
+          はじめての方へ。<br><span class="text-ki">券売機</span>と並び方ガイド。
+        </h2>
+        <p class="mt-4 text-[14px] font-medium opacity-85 max-w-xl">迷わずサクッと。4ステップでアツアツの一杯まで。</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="reveal bg-paper text-sumi p-6 border-3 border-paper relative" style="border-width:3px;">
+          <div class="step-no absolute -top-7 left-6">1</div>
+          <div class="mt-7">
+            <i class="fa-solid fa-people-line text-aka text-2xl"></i>
+            <h3 class="font-disp text-lg mt-3">列に並ぶ</h3>
+            <p class="mt-2 text-[13px] text-sub leading-relaxed">入口右の券売機前へ。混雑時は店外で一列にお並びください。</p>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-1 bg-ki text-sumi p-6 border-3 border-paper relative" style="border-width:3px;">
+          <div class="step-no absolute -top-7 left-6 !bg-aka !text-paper">2</div>
+          <div class="mt-7">
+            <i class="fa-solid fa-ticket text-aka text-2xl"></i>
+            <h3 class="font-disp text-lg mt-3">食券を買う</h3>
+            <p class="mt-2 text-[13px] leading-relaxed">券売機でメニューとトッピングを選択。現金・交通系IC・PayPay対応。</p>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-2 bg-paper text-sumi p-6 border-3 border-paper relative" style="border-width:3px;">
+          <div class="step-no absolute -top-7 left-6">3</div>
+          <div class="mt-7">
+            <i class="fa-solid fa-chair text-aka text-2xl"></i>
+            <h3 class="font-disp text-lg mt-3">席へ・食券を渡す</h3>
+            <p class="mt-2 text-[13px] text-sub leading-relaxed">スタッフの案内で着席。食券を渡し、麺のかたさ・量をお伝えください。</p>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-3 bg-aka text-paper p-6 border-3 border-paper relative" style="border-width:3px;">
+          <div class="step-no absolute -top-7 left-6 !bg-ki !text-sumi">4</div>
+          <div class="mt-7">
+            <i class="fa-solid fa-bowl-food text-ki text-2xl"></i>
+            <h3 class="font-disp text-lg mt-3">アツアツを一杯</h3>
+            <p class="mt-2 text-[13px] leading-relaxed opacity-95">替え玉は卓上ボタンで。SNSフォロー画面提示で1玉無料！</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 flex flex-wrap gap-3 reveal">
+        <span class="inline-flex items-center gap-2 px-4 py-2 border-2 border-paper/50 text-[12px] font-bold"><i class="fa-solid fa-clock text-ki"></i> 混雑ピーク 12:00-13:30 / 19:00-20:30</span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 border-2 border-paper/50 text-[12px] font-bold"><i class="fa-solid fa-user text-ki"></i> おひとり様カウンター歓迎</span>
+        <span class="inline-flex items-center gap-2 px-4 py-2 border-2 border-paper/50 text-[12px] font-bold"><i class="fa-solid fa-ban text-aka"></i> 麺切れ・スープ切れ仕舞いあり</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== テイクアウト / 冷凍ギフト ============================== -->
+  <section id="takeout" class="relative py-20 md:py-28 bg-paper overflow-hidden">
+    <div class="absolute -bottom-16 -left-16 w-80 h-80 rounded-full stripe-aka opacity-10"></div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 relative">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-center">
+        <div class="md:col-span-5 reveal">
+          <div class="sec-num mb-2">— 04 / TAKEOUT &amp; GIFT</div>
+          <h2 class="font-disp text-3xl md:text-5xl leading-[1.15]">
+            おうちでも、<br><span class="text-aka">あの一杯</span>。
+          </h2>
+          <div class="h-1 w-24 bg-ki my-6"></div>
+          <p class="text-[14px] font-medium text-sub leading-loose max-w-md">
+            テイクアウトの餃子・炒飯はもちろん、スープと自家製麺をセットにした<span class="text-sumi font-bold">冷凍ギフト</span>を販売中。蒲田の味を、贈りものにも。
+          </p>
+          <div class="mt-8 flex flex-wrap gap-4">
+            <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn-aka"><i class="fa-solid fa-box"></i> 予約・在庫はSNSで</a>
+            <a href="#info" class="btn-ki"><i class="fa-solid fa-store"></i> 店頭でも受取OK</a>
+          </div>
+        </div>
+
+        <div class="md:col-span-7 grid grid-cols-2 gap-5">
+          <div class="dish-card overflow-hidden border-3 border-sumi reveal reveal-delay-1" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
+            <div class="overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=900&q=80" alt="持ち帰り餃子" class="dish-img w-full aspect-square object-cover">
+            </div>
+            <div class="bg-paper p-4 flex items-center justify-between">
+              <span class="font-disp text-[15px]">冷凍餃子（12個）</span>
+              <span class="price-big text-aka text-2xl">¥600</span>
+            </div>
+          </div>
+          <div class="dish-card overflow-hidden border-3 border-sumi reveal reveal-delay-2" style="border-width:3px;box-shadow:6px 6px 0 #D7281F;">
+            <div class="overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=900&q=80" alt="冷凍ラーメンギフト" class="dish-img w-full aspect-square object-cover">
+            </div>
+            <div class="bg-sumi text-paper p-4 flex items-center justify-between">
+              <span class="font-disp text-[15px]">ラーメンギフト2食</span>
+              <span class="price-big text-ki text-2xl">¥1,480</span>
+            </div>
+          </div>
+          <div class="dish-card overflow-hidden border-3 border-sumi reveal reveal-delay-1 col-span-2" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
+            <div class="overflow-hidden">
+              <img src="https://images.unsplash.com/photo-1645696301019-35adcc18fc21?w=1200&q=80" alt="炒飯テイクアウト" class="dish-img w-full aspect-[2/1] object-cover">
+            </div>
+            <div class="bg-ki text-sumi p-4 flex items-center justify-between">
+              <span class="font-disp text-[15px]">テイクアウト炒飯弁当</span>
+              <span class="price-big text-aka text-2xl">¥600</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 店舗情報 ============================== -->
+  <section id="info" class="relative py-20 md:py-28 bg-paper border-t-4 border-sumi">
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-14">
+        <div class="md:col-span-7 reveal">
+          <div class="sec-num mb-2">— 05 / STORE INFO</div>
+          <h2 class="font-disp text-3xl md:text-5xl leading-tight mb-9">店舗情報</h2>
+
+          <dl class="divide-y-2 divide-line">
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">店名</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">◯◯ラーメン（仮）<span class="text-[11px] text-aka font-bold ml-2">＊本サイトはサンプルです</span></dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">業態</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">ラーメン ／ 町中華（券売機制）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">住所</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">
+                〒144-0051<br>東京都大田区蒲田X-XX-XX 蒲田駅前ビル 1F<br>
+                <a href="https://maps.google.com/?q=蒲田駅" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-2 text-aka font-bold border-b-2 border-aka hover:opacity-75">
+                  <i class="fa-solid fa-map-location-dot"></i> Google Mapで開く
+                </a>
+              </dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">電話</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium"><a href="tel:0300000000" class="hover:text-aka">03-0000-0000</a></dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">営業時間</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">
+                <div class="space-y-1.5">
+                  <div class="flex justify-between border-b-2 border-line pb-1.5 max-w-md"><span>平日</span><span class="price-big">11:00 — 15:00 / 18:00 — 23:00</span></div>
+                  <div class="flex justify-between border-b-2 border-line pb-1.5 max-w-md"><span>土曜</span><span class="price-big">11:00 — 23:00 <span class="text-[11px] text-sub">通し</span></span></div>
+                  <div class="flex justify-between max-w-md"><span>日・祝</span><span class="price-big">11:00 — 21:00</span></div>
+                </div>
+                <p class="mt-2 text-[11px] text-aka font-bold">＊スープ・麺切れ次第 早仕舞いあり</p>
+              </dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">定休日</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">水曜（祝日の場合は翌日 ／ SNSで告知）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">席数</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">18席（カウンター14席 ／ 小上がり4席）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">支払い</dt>
+              <dd class="col-span-8 md:col-span-9 font-medium">券売機（現金 ／ 交通系IC ／ PayPay）</dd>
+            </div>
+            <div class="grid grid-cols-12 py-4 text-[14px]">
+              <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">SNS</dt>
+              <dd class="col-span-8 md:col-span-9 flex flex-wrap gap-3 text-[12px]">
+                <a href="#" class="px-3 py-1.5 border-2 border-sumi font-bold hover:bg-sumi hover:text-paper transition-colors"><i class="fa-brands fa-instagram mr-2"></i>@sample_kamata_ramen</a>
+                <a href="#" class="px-3 py-1.5 border-2 border-sumi font-bold hover:bg-sumi hover:text-paper transition-colors"><i class="fa-brands fa-tiktok mr-2"></i>@kamata_ramen</a>
+                <a href="#" class="px-3 py-1.5 border-2 border-sumi font-bold hover:bg-sumi hover:text-paper transition-colors"><i class="fa-brands fa-x-twitter mr-2"></i>本日の営業</a>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="md:col-span-5 space-y-6">
+          <div class="reveal reveal-delay-1 border-3 border-sumi overflow-hidden" style="border-width:3px;box-shadow:8px 8px 0 #D7281F;">
+            <img src="https://images.unsplash.com/photo-1554502078-ef0fc409efce?w=900&q=80" alt="ラーメン店の店内" class="w-full aspect-[4/5] object-cover">
+          </div>
+          <div class="reveal reveal-delay-2 bg-sumi text-paper p-7" style="box-shadow:8px 8px 0 #1A1714;">
+            <h3 class="font-disp text-xl mb-3 text-ki">＊ご利用ガイド</h3>
+            <ul class="space-y-2 text-[13px] leading-relaxed opacity-90 font-medium">
+              <li>・券売機制・前売り。混雑時は相席をお願いする場合があります。</li>
+              <li>・お子様用の取り分け食器・うすめスープ対応あります。</li>
+              <li>・ニンニク有無は卓上でお選びください。</li>
+              <li>・食物アレルギーは食券購入前にお声がけを。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== アクセス ============================== -->
+  <section id="access" class="relative py-20 md:py-28 bg-ai text-paper overflow-hidden">
+    <div class="absolute inset-0 stripe-kuro opacity-[0.06]"></div>
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10 relative">
+      <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-start">
+        <div class="md:col-span-5 reveal">
+          <div class="sec-num !text-ki mb-2">— 06 / ACCESS</div>
+          <h2 class="font-disp text-3xl md:text-5xl leading-tight mb-8">蒲田駅から、3分。</h2>
+
+          <ul class="space-y-5 text-[14px] leading-relaxed">
+            <li class="flex gap-4">
+              <i class="fa-solid fa-train text-ki text-xl mt-0.5"></i>
+              <div><div class="font-disp text-base">JR京浜東北線・東急各線</div><div class="text-paper/70 text-[12px] mt-1">蒲田駅 東口から徒歩3分</div></div>
+            </li>
+            <li class="flex gap-4">
+              <i class="fa-solid fa-route text-ki text-xl mt-0.5"></i>
+              <div><div class="font-disp text-base">京急線「京急蒲田駅」</div><div class="text-paper/70 text-[12px] mt-1">西口から徒歩10分</div></div>
+            </li>
+            <li class="flex gap-4">
+              <i class="fa-solid fa-square-parking text-ki text-xl mt-0.5"></i>
+              <div><div class="font-disp text-base">駐車場</div><div class="text-paper/70 text-[12px] mt-1">なし（近隣コインP多数）</div></div>
+            </li>
+          </ul>
+
+          <div class="mt-9 p-5 bg-paper text-sumi border-3 border-sumi" style="border-width:3px;">
+            <div class="text-[11px] tracking-jumbo text-aka font-bold mb-2">SHORTCUT</div>
+            <p class="font-bold text-[14px] leading-relaxed">東口を出て、アーケード商店街を直進。<br>2つ目の角を右、<span class="text-aka">赤い暖簾</span>がすぐ目印です。</p>
+          </div>
+        </div>
+
+        <div class="md:col-span-7 reveal reveal-delay-1">
+          <div class="aspect-[4/3] relative bg-paper border-3 border-sumi overflow-hidden" style="border-width:3px;box-shadow:9px 9px 0 #1A1714;">
+            <svg viewBox="0 0 400 300" class="absolute inset-0 w-full h-full">
+              <rect width="400" height="300" fill="#FBF6EC"/>
+              <path d="M0,185 L400,185" stroke="#E4D9C5" stroke-width="16" fill="none"/>
+              <path d="M170,0 L170,300" stroke="#E4D9C5" stroke-width="11" fill="none"/>
+              <path d="M260,185 L260,50" stroke="#E4D9C5" stroke-width="6" fill="none"/>
+              <rect x="142" y="58" width="56" height="38" fill="#1F4E5F"/>
+              <text x="170" y="82" text-anchor="middle" fill="#FBF6EC" font-family="Dela Gothic One" font-size="13">蒲田</text>
+              <text x="170" y="116" text-anchor="middle" fill="#1A1714" font-family="Zen Kaku Gothic New" font-size="9">JR・東急 東口</text>
+              <g transform="translate(298,138)">
+                <circle r="24" fill="#D7281F" stroke="#1A1714" stroke-width="2"/>
+                <text x="0" y="6" text-anchor="middle" fill="#FBF6EC" font-family="Dela Gothic One" font-size="16">麺</text>
+              </g>
+              <text x="298" y="180" text-anchor="middle" fill="#1A1714" font-family="Zen Kaku Gothic New" font-size="10" font-weight="700">◯◯ラーメン</text>
+              <path d="M200,80 Q255,82 285,128" stroke="#D7281F" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
+              <text x="245" y="74" fill="#D7281F" font-family="Anton" font-size="13">3 MIN</text>
+            </svg>
+            <a href="https://maps.google.com/?q=蒲田駅" target="_blank" rel="noopener"
+               class="absolute bottom-4 right-4 inline-flex items-center gap-2 px-4 py-2 bg-sumi text-paper text-[12px] font-bold hover:bg-aka transition-colors">
+              <i class="fa-solid fa-up-right-from-square"></i> Google Mapで開く
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 営業時間 CTA ============================== -->
+  <section class="relative py-20 md:py-28 bg-aka text-paper overflow-hidden">
+    <div class="absolute -right-10 -bottom-10 kanji-bg !text-sumi/10 text-[260px]">食</div>
+    <div class="steam hidden md:flex absolute top-10 right-[20%] gap-4 opacity-60">
+      <span></span><span></span><span></span>
+    </div>
+    <div class="max-w-[1000px] mx-auto px-5 md:px-10 relative text-center">
+      <div class="sec-num !text-ki mb-4 reveal font-latin">— OPEN NOW —</div>
+      <h2 class="reveal reveal-delay-1 font-disp text-4xl md:text-6xl leading-tight">
+        腹ぺこなら、<br>いますぐ蒲田へ。
+      </h2>
+      <p class="reveal reveal-delay-2 mt-6 text-[15px] font-medium leading-loose max-w-xl mx-auto opacity-95">
+        平日 11:00-15:00 / 18:00-23:00 営業。<br>本日の営業状況・スープ切れ情報はSNSで随時更新中。
+      </p>
+      <div class="reveal reveal-delay-3 mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a href="https://instagram.com/" target="_blank" rel="noopener" class="btn-ki"><i class="fa-brands fa-instagram"></i> 本日の営業を見る</a>
+        <a href="tel:0300000000" class="btn-ghost"><i class="fa-solid fa-phone"></i> 03-0000-0000</a>
+      </div>
+      <div class="reveal reveal-delay-3 mt-10 text-[11px] tracking-jumbo opacity-80 font-bold">
+        <i class="fa-solid fa-bowl-food mr-2"></i> SNSフォロー画面提示で、替え玉1玉サービス
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FOOTER ============================== -->
+  <footer class="relative bg-sumi text-paper py-14">
+    <div class="max-w-[1320px] mx-auto px-5 md:px-10">
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-5">
+          <div class="flex items-center gap-3">
+            <span class="hanko !w-12 !h-12 text-[15px] leading-none">麺</span>
+            <span class="font-disp text-2xl">◯◯ラーメン<span class="text-[11px] text-ki align-top ml-1">（仮）</span></span>
+          </div>
+          <p class="mt-4 text-[12px] leading-relaxed text-paper/70 max-w-xs">
+            蒲田駅東口 徒歩3分。朝炊きスープの一杯と、町中華の定食。券売機で気軽に、一人でもガッツリ。
+          </p>
+          <div class="mt-6 flex gap-2">
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border-2 border-paper hover:bg-ki hover:text-sumi hover:border-ki transition-colors"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border-2 border-paper hover:bg-ki hover:text-sumi hover:border-ki transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="#" class="w-10 h-10 inline-flex items-center justify-center border-2 border-paper hover:bg-ki hover:text-sumi hover:border-ki transition-colors"><i class="fa-brands fa-x-twitter"></i></a>
+          </div>
+        </div>
+        <div class="md:col-span-3">
+          <div class="text-[11px] tracking-jumbo text-ki mb-4 font-bold">MENU</div>
+          <ul class="space-y-2 text-[13px]">
+            <li><a href="#kodawari" class="hover:text-ki">こだわり</a></li>
+            <li><a href="#menu" class="hover:text-ki">お品書き</a></li>
+            <li><a href="#guide" class="hover:text-ki">ご利用案内</a></li>
+            <li><a href="#takeout" class="hover:text-ki">テイクアウト</a></li>
+            <li><a href="#info" class="hover:text-ki">店舗情報</a></li>
+          </ul>
+        </div>
+        <div class="md:col-span-4">
+          <div class="text-[11px] tracking-jumbo text-ki mb-4 font-bold">SHOP</div>
+          <ul class="space-y-2 text-[13px] text-paper/80">
+            <li>東京都大田区蒲田X-XX-XX 蒲田駅前ビル 1F</li>
+            <li>TEL: 03-0000-0000</li>
+            <li>営業: 平日 11-15 / 18-23</li>
+            <li>定休: 水曜</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="h-[2px] bg-paper/20 my-9"></div>
+
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] tracking-wider3 text-paper/60">
+        <div>© 2026 ◯◯ラーメン（SNSコンサル提案用サンプル）</div>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-ki">プライバシーポリシー</a>
+          <span class="opacity-50">／</span>
+          <a href="#" class="hover:text-ki">特定商取引法</a>
+          <span class="opacity-50">／</span>
+          <span>Designed for kamata ramen.</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================== モバイル固定CTA ============================== -->
+  <div class="mobile-cta fixed bottom-0 left-0 right-0 z-50 bg-sumi border-t-4 border-ki px-3 py-3 flex items-center gap-2">
+    <a href="tel:0300000000" class="flex-1 inline-flex items-center justify-center gap-2 py-3 border-2 border-paper text-paper text-[13px] font-bold">
+      <i class="fa-solid fa-phone"></i> 電話
+    </a>
+    <a href="#menu" class="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-ki text-sumi text-[13px] font-bold">
+      <i class="fa-solid fa-bowl-food"></i> お品書き
+    </a>
+    <a href="#takeout" class="flex-1 inline-flex items-center justify-center gap-2 py-3 bg-aka text-paper text-[13px] font-bold">
+      <i class="fa-solid fa-box"></i> 持ち帰り
+    </a>
+  </div>
+
+  <!-- ============================== SCRIPT ============================== -->
+  <script>
+    // ナビ吸着
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // リビール
+    const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}})},{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  </script>
+
+</body>
+</html>
