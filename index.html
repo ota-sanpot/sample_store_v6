@@ -177,25 +177,71 @@
     .nav-stick { transition: background-color .3s ease, box-shadow .3s ease, padding .3s ease; }
     .nav-stick.scrolled { background: #FBF6EC; box-shadow: 0 2px 0 #1A1714; }
     .nav-stick.scrolled .nav-inner { padding-top: 11px; padding-bottom: 11px; }
+
+    /* ===== 仕上げ追記（ラーメン爆音） ===== */
+    /* 写真トーン統一（実写真img、ロゴ除外） */
+    section img { filter: saturate(1.1) contrast(1.06); }
+
+    /* 爆音マーキー：赤×黄交互・極太・高速 */
+    .marquee-loud { animation-duration: 18s !important; gap: 0 !important; }
+    .marquee-loud span {
+      font-family: '"Dela Gothic One"', sans-serif;
+      font-size: 13px; letter-spacing: .04em; line-height: 1.6;
+      margin: 0; border-right: 3px solid #1A1714;
+    }
+    .marquee-loud span:nth-child(odd){ background:#D7281F; color:#FBF6EC; padding:2px 14px }
+    .marquee-loud span:nth-child(even){ background:#F2B705; color:#1A1714; padding:2px 14px }
+    .marquee-tilt { transform: rotate(-1deg); }
+
+    /* 本日のスープ パルスバッジ */
+    .soup-badge {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: #1A1714; color: #FBF6EC; border: 2px solid #F2B705;
+      padding: 7px 15px; font-weight: 700; font-size: 13px;
+      box-shadow: 4px 4px 0 #D7281F;
+    }
+    .soup-dot { width: 11px; height: 11px; border-radius: 9999px; background: #D7281F; box-shadow: 0 0 0 0 rgba(215,40,31,.6); }
+
+    /* 斜めカット（赤帯/黒帯の境界） */
+    .cut-down { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 26px), 0 100%); }
+    .cut-up   { clip-path: polygon(0 26px, 100% 0, 100% 100%, 0 100%); }
+
+    /* reveal 派生 */
+    .reveal-left{opacity:0;transform:translateX(-28px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+    .reveal-right{opacity:0;transform:translateX(28px);transition:all 1s cubic-bezier(.16,1,.3,1)}
+    .reveal-scale{opacity:0;transform:scale(.94);transition:all 1s cubic-bezier(.16,1,.3,1)}
+    .reveal-blur{opacity:0;filter:blur(10px);transition:all 1.1s cubic-bezier(.16,1,.3,1)}
+    .reveal-glow{opacity:0;filter:brightness(.4);transition:all 1.2s ease}
+    .reveal-left.visible,.reveal-right.visible{opacity:1;transform:translateX(0)}
+    .reveal-scale.visible{opacity:1;transform:scale(1)}
+    .reveal-blur.visible{opacity:1;filter:blur(0)}
+    .reveal-glow.visible{opacity:1;filter:brightness(1)}
+    .reveal,.reveal-left,.reveal-right,.reveal-scale,.reveal-blur,.reveal-glow{will-change:transform}
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal,.reveal-left,.reveal-right,.reveal-scale,.reveal-blur,.reveal-glow{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}
+      .marquee-track{animation:none!important}
+    }
+
+    /* SP 透かし漢字の横スクロール防止 */
+    @media (max-width: 767px){ .kanji-bg{ overflow:hidden; max-width:100vw; } }
   </style>
 </head>
 
-<body class="font-jp">
+<body class="font-jp overflow-x-hidden pb-[80px] md:pb-0">
 
-  <!-- ============================== マーキー告知 ============================== -->
-  <div class="stripe-kuro text-sumi">
-    <div class="bg-ki/0">
-      <div class="bg-paper/0 py-2 overflow-hidden text-[12px] font-bold tracking-wider3" style="text-shadow:0 0 0;">
-        <div class="marquee-track">
-          <span><i class="fa-solid fa-bowl-food text-aka mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
-          <span><i class="fa-solid fa-fire text-aka mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
-          <span><i class="fa-solid fa-clock text-aka mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
-          <span><i class="fa-solid fa-box text-aka mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
-          <span><i class="fa-solid fa-bowl-food text-aka mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
-          <span><i class="fa-solid fa-fire text-aka mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
-          <span><i class="fa-solid fa-clock text-aka mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
-          <span><i class="fa-solid fa-box text-aka mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
-        </div>
+  <!-- ============================== マーキー告知（爆音） ============================== -->
+  <div class="stripe-kuro text-sumi overflow-hidden">
+    <div class="marquee-tilt py-2 overflow-hidden border-y-2 border-sumi" style="text-shadow:0 0 0;">
+      <div class="marquee-track marquee-loud">
+        <span><i class="fa-solid fa-bowl-food mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
+        <span><i class="fa-solid fa-fire mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
+        <span><i class="fa-solid fa-clock mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
+        <span><i class="fa-solid fa-box mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
+        <span><i class="fa-solid fa-bowl-food mr-2"></i>蒲田駅東口 徒歩3分・券売機制・カウンター14席</span>
+        <span><i class="fa-solid fa-fire mr-2"></i>名物「蒲田豚骨醤油」一杯 ¥850</span>
+        <span><i class="fa-solid fa-clock mr-2"></i>替え玉一玉サービス（SNSフォロー提示で）</span>
+        <span><i class="fa-solid fa-box mr-2"></i>テイクアウト・冷凍ギフト はじめました</span>
       </div>
     </div>
   </div>
@@ -232,13 +278,20 @@
   </nav>
 
   <!-- ============================== HERO ============================== -->
-  <header id="top" class="relative min-h-[100vh] overflow-hidden bg-sumi pt-16">
+  <header id="top" class="relative min-h-[100svh] overflow-hidden bg-sumi pt-16 cut-down">
     <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=1600&q=80"
          alt="湯気の立つ醤油ラーメン" class="absolute inset-0 w-full h-full object-cover opacity-70" loading="eager">
     <div class="absolute inset-0" style="background:linear-gradient(90deg, rgba(26,23,20,.92) 0%, rgba(26,23,20,.55) 48%, rgba(26,23,20,.15) 100%), linear-gradient(0deg, rgba(26,23,20,.85) 0%, transparent 45%);"></div>
+    <!-- 朱赤オーバーレイ（熱々） -->
+    <div class="absolute inset-0 pointer-events-none" style="background:#D7281F;mix-blend-mode:overlay;opacity:.03;"></div>
 
-    <!-- 右側ストライプ帯 -->
-    <div class="hidden md:block absolute top-0 right-0 w-10 h-full stripe-aka opacity-90"></div>
+    <!-- 巨大透かし「豚」 -->
+    <div class="kanji-bg !text-paper/[0.07] absolute -bottom-16 -left-6 text-[260px] md:text-[440px] select-none">豚</div>
+
+    <!-- 右側ストライプ帯＋縦帯タイポ -->
+    <div class="hidden md:flex absolute top-0 right-0 w-14 h-full stripe-aka opacity-95 items-center justify-center">
+      <span class="font-latin text-paper/85 text-2xl tracking-jumbo" style="writing-mode:vertical-rl;text-shadow:2px 2px 0 #1A1714;">KAMATA RAMEN</span>
+    </div>
 
     <!-- 湯気 -->
     <div class="steam hidden md:flex absolute top-32 left-[44%] gap-4">
@@ -255,9 +308,13 @@
           </div>
         </div>
 
-        <h1 class="reveal reveal-delay-1 font-disp leading-[1.05]">
-          <span class="block text-5xl md:text-7xl lg:text-8xl stroke-on-aka">ガツンと、</span>
-          <span class="block text-5xl md:text-7xl lg:text-8xl mt-2 text-paper">蒲田の<span class="text-aka">一杯</span>。</span>
+        <div class="reveal mb-3">
+          <span class="soup-badge"><span class="soup-dot animate-pulse"></span>本日：豚骨醤油 営業中</span>
+        </div>
+
+        <h1 class="reveal reveal-delay-1 font-disp leading-[1.02]">
+          <span class="inline-block text-6xl md:text-8xl lg:text-9xl stroke-on-aka -rotate-3 origin-left" style="-webkit-text-stroke:3px #F2B705;color:#F2B705;text-shadow:5px 5px 0 #1A1714;">ガツンと、</span>
+          <span class="block text-5xl md:text-7xl lg:text-8xl mt-4 text-paper">蒲田の<span class="text-aka">一杯</span>。</span>
         </h1>
 
         <p class="reveal reveal-delay-2 mt-7 text-[14px] md:text-[16px] leading-loose font-medium max-w-xl opacity-95">
@@ -284,7 +341,7 @@
   </header>
 
   <!-- ============================== 人気訴求バンド ============================== -->
-  <section class="relative bg-aka text-paper border-y-4 border-sumi overflow-hidden">
+  <section class="relative bg-aka text-paper border-y-4 border-sumi overflow-hidden cut-up -mt-1">
     <div class="absolute -right-8 -top-8 kanji-bg !text-paper/10 text-[200px]">麺</div>
     <div class="max-w-[1320px] mx-auto px-5 md:px-10 py-12 grid grid-cols-2 md:grid-cols-4 gap-y-8 relative">
       <div class="text-center md:border-r-2 md:border-paper/30 reveal">
@@ -326,7 +383,7 @@
 
       <div class="grid md:grid-cols-3 gap-6 md:gap-7">
         <!-- スープ -->
-        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal" style="border-width:3px;box-shadow:7px 7px 0 #1A1714;">
+        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal-left" style="border-width:3px;box-shadow:3px 3px 0 #1A1714;">
           <div class="overflow-hidden relative">
             <img src="https://images.unsplash.com/photo-1591814468924-caf88d1232e1?w=900&q=80" alt="濃厚スープ" class="dish-img w-full aspect-[4/3] object-cover">
             <span class="absolute top-3 left-3 bg-ki text-sumi text-[11px] font-bold px-3 py-1 border-2 border-sumi">01</span>
@@ -341,7 +398,7 @@
         </article>
 
         <!-- 麺 -->
-        <article class="dish-card bg-sumi text-paper border-3 border-sumi overflow-hidden reveal reveal-delay-1" style="border-width:3px;box-shadow:7px 7px 0 #D7281F;">
+        <article class="dish-card bg-sumi text-paper border-3 border-sumi overflow-hidden reveal-scale reveal-delay-1" style="border-width:3px;box-shadow:3px 3px 0 #D7281F;">
           <div class="overflow-hidden relative">
             <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?w=900&q=80" alt="自家製麺" class="dish-img w-full aspect-[4/3] object-cover">
             <span class="absolute top-3 left-3 bg-aka text-paper text-[11px] font-bold px-3 py-1 border-2 border-paper">02</span>
@@ -356,7 +413,7 @@
         </article>
 
         <!-- チャーシュー -->
-        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal reveal-delay-2" style="border-width:3px;box-shadow:7px 7px 0 #1A1714;">
+        <article class="dish-card bg-paper border-3 border-sumi overflow-hidden reveal-right reveal-delay-2" style="border-width:3px;box-shadow:3px 3px 0 #1A1714;">
           <div class="overflow-hidden relative">
             <img src="https://images.unsplash.com/photo-1632709810780-b5a4343cebec?w=900&q=80" alt="炙りチャーシュー" class="dish-img w-full aspect-[4/3] object-cover">
             <span class="absolute top-3 left-3 bg-ki text-sumi text-[11px] font-bold px-3 py-1 border-2 border-sumi">03</span>
@@ -754,7 +811,7 @@
   </section>
 
   <!-- ============================== 営業時間 CTA ============================== -->
-  <section class="relative py-20 md:py-28 bg-aka text-paper overflow-hidden">
+  <section class="relative py-20 md:py-28 bg-aka text-paper overflow-hidden cut-down">
     <div class="absolute -right-10 -bottom-10 kanji-bg !text-sumi/10 text-[260px]">食</div>
     <div class="steam hidden md:flex absolute top-10 right-[20%] gap-4 opacity-60">
       <span></span><span></span><span></span>
@@ -778,7 +835,7 @@
   </section>
 
   <!-- ============================== FOOTER ============================== -->
-  <footer class="relative bg-sumi text-paper py-14">
+  <footer class="relative bg-sumi text-paper py-14 -mt-1">
     <div class="max-w-[1320px] mx-auto px-5 md:px-10">
       <div class="grid md:grid-cols-12 gap-10">
         <div class="md:col-span-5">
@@ -857,7 +914,7 @@
 
     // リビール
     const io = new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}})},{threshold:0.12});
-    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale,.reveal-blur,.reveal-glow').forEach(el=>io.observe(el));
   </script>
 
 </body>
