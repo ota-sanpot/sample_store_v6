@@ -174,8 +174,8 @@
     @media (min-width: 768px) { .mobile-cta { display: none; } }
 
     /* ヘッダー吸着 */
-    .nav-stick { transition: background-color .3s ease, box-shadow .3s ease, padding .3s ease; }
-    .nav-stick.scrolled { background: #FBF6EC; box-shadow: 0 2px 0 #1A1714; }
+    .nav-stick { transition: top .3s ease, background-color .3s ease, box-shadow .3s ease, padding .3s ease; }
+    .nav-stick.scrolled { top: 0 !important; background: #FBF6EC; box-shadow: 0 2px 0 #1A1714; }
     .nav-stick.scrolled .nav-inner { padding-top: 11px; padding-bottom: 11px; }
 
     /* ===== 仕上げ追記（ラーメン爆音） ===== */
@@ -247,7 +247,7 @@
   </div>
 
   <!-- ============================== NAV ============================== -->
-  <nav id="nav" class="nav-stick fixed top-0 left-0 right-0 z-50">
+  <nav id="nav" class="nav-stick fixed top-10 left-0 right-0 z-50">
     <div class="nav-inner max-w-[1320px] mx-auto px-5 md:px-10 py-4 flex items-center justify-between">
       <a href="#top" class="flex items-center gap-3">
         <span class="hanko !w-12 !h-12 text-[15px] leading-none">麺</span>
