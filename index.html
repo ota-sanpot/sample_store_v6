@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>◯◯ラーメン（仮）｜ 蒲田・ラーメン／町中華サンプルサイト</title>
-  <meta name="description" content="蒲田駅から徒歩3分。豚骨醤油の一杯と、町中華の定食。券売機で気軽に、一人でもガッツリ。本サイトはSNSコンサル提案用のサンプルです。">
+  <title>らーめん まる福 ｜ 蒲田のラーメン・町中華（制作サンプル）</title>
+  <meta name="description" content="蒲田駅から徒歩3分。豚骨醤油の一杯と、町中華の定食。券売機で気軽に、一人でもガッツリ。本サイトは制作サンプル（架空の店舗）です。">
 
   <!-- Fonts: Dela Gothic One / Anton / Zen Kaku Gothic New（v1・v2 と完全に別ファミリー） -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,6 +176,8 @@
     /* ヘッダー吸着 */
     .nav-stick { transition: top .3s ease, background-color .3s ease, box-shadow .3s ease, padding .3s ease; }
     .nav-stick.scrolled { top: 0 !important; background: #FBF6EC; box-shadow: 0 2px 0 #1A1714; }
+    .nav-stick:not(.scrolled) .nav-name { color: #FBF6EC; text-shadow: 0 2px 10px rgba(0,0,0,.6); }
+    .nav-stick:not(.scrolled) .nav-sub { color: #F2B705; }
     .nav-stick.scrolled .nav-inner { padding-top: 11px; padding-bottom: 11px; }
 
     /* ===== 仕上げ追記（ラーメン爆音） ===== */
@@ -252,8 +254,8 @@
       <a href="#top" class="flex items-center gap-3">
         <span class="hanko !w-12 !h-12 text-[15px] leading-none">麺</span>
         <span class="leading-tight">
-          <span class="block font-disp text-lg md:text-xl text-sumi">◯◯ラーメン<span class="text-[11px] text-sub align-top ml-1">（仮）</span></span>
-          <span class="block text-[10px] tracking-jumbo text-aka font-bold">KAMATA RAMEN — SAMPLE</span>
+          <span class="nav-name block font-disp text-lg md:text-xl text-sumi">らーめん まる福</span>
+          <span class="nav-sub block text-[10px] tracking-jumbo text-aka font-bold">KAMATA RAMEN — SAMPLE</span>
         </span>
       </a>
 
@@ -303,7 +305,7 @@
         <div class="flex items-center gap-3 mb-6 reveal">
           <span class="hanko text-[12px] leading-tight text-center">蒲田<br>の<br>魂</span>
           <div>
-            <div class="font-latin text-ki text-xl tracking-wider3">SINCE 仮 · KAMATA EAST</div>
+            <div class="font-latin text-ki text-xl tracking-wider3">KAMATA EAST · RAMEN</div>
             <div class="text-[12px] font-bold tracking-jumbo opacity-80">町中華 ＆ RAMEN</div>
           </div>
         </div>
@@ -347,7 +349,7 @@
       <div class="text-center md:border-r-2 md:border-paper/30 reveal">
         <div class="price-big text-5xl md:text-6xl text-ki">120<span class="text-2xl ml-1">万</span></div>
         <div class="mt-2 text-[11px] tracking-wider3 font-bold opacity-90 font-latin">BOWLS SERVED</div>
-        <div class="mt-1 text-[13px] font-bold">累計提供杯数（仮）</div>
+        <div class="mt-1 text-[13px] font-bold">累計提供杯数</div>
       </div>
       <div class="text-center md:border-r-2 md:border-paper/30 reveal reveal-delay-1">
         <div class="price-big text-5xl md:text-6xl text-ki">¥850<span class="text-2xl ml-1">〜</span></div>
@@ -483,7 +485,7 @@
             </div>
           </div>
           <div class="dish-card relative overflow-hidden border-3 border-sumi reveal reveal-delay-2" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
-            <img src="https://images.unsplash.com/photo-1626804475297-41608ea09aeb?w=900&q=80" alt="餃子" class="dish-img w-full aspect-[16/10] object-cover">
+            <img src="images/menu-gyoza.webp" alt="餃子" class="dish-img w-full aspect-[16/10] object-cover">
             <div class="absolute inset-x-0 bottom-0 p-5 text-paper" style="background:linear-gradient(0deg,rgba(26,23,20,.9),transparent);">
               <div class="flex items-end justify-between">
                 <div>
@@ -649,7 +651,7 @@
           </div>
           <div class="dish-card overflow-hidden border-3 border-sumi reveal reveal-delay-2" style="border-width:3px;box-shadow:6px 6px 0 #D7281F;">
             <div class="overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=900&q=80" alt="冷凍ラーメンギフト" class="dish-img w-full aspect-square object-cover">
+              <img src="https://images.unsplash.com/photo-1557872943-16a5ac26437e?w=1000&q=80" alt="冷凍ラーメンギフト" class="dish-img w-full aspect-square object-cover">
             </div>
             <div class="bg-sumi text-paper p-4 flex items-center justify-between">
               <span class="font-disp text-[15px]">ラーメンギフト2食</span>
@@ -658,7 +660,7 @@
           </div>
           <div class="dish-card overflow-hidden border-3 border-sumi reveal reveal-delay-1 col-span-2" style="border-width:3px;box-shadow:6px 6px 0 #1A1714;">
             <div class="overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1645696301019-35adcc18fc21?w=1200&q=80" alt="炒飯テイクアウト" class="dish-img w-full aspect-[2/1] object-cover">
+              <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=1000&q=80" alt="炒飯テイクアウト" class="dish-img w-full aspect-[2/1] object-cover">
             </div>
             <div class="bg-ki text-sumi p-4 flex items-center justify-between">
               <span class="font-disp text-[15px]">テイクアウト炒飯弁当</span>
@@ -681,7 +683,7 @@
           <dl class="divide-y-2 divide-line">
             <div class="grid grid-cols-12 py-4 text-[14px]">
               <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">店名</dt>
-              <dd class="col-span-8 md:col-span-9 font-medium">◯◯ラーメン（仮）<span class="text-[11px] text-aka font-bold ml-2">＊本サイトはサンプルです</span></dd>
+              <dd class="col-span-8 md:col-span-9 font-medium">らーめん まる福<span class="text-[11px] text-aka font-bold ml-2">＊本サイトは制作サンプルです（架空の店舗）</span></dd>
             </div>
             <div class="grid grid-cols-12 py-4 text-[14px]">
               <dt class="col-span-4 md:col-span-3 font-bold text-sub text-[12px] tracking-wider3 pt-1">業態</dt>
@@ -736,7 +738,7 @@
 
         <div class="md:col-span-5 space-y-6">
           <div class="reveal reveal-delay-1 border-3 border-sumi overflow-hidden" style="border-width:3px;box-shadow:8px 8px 0 #D7281F;">
-            <img src="https://images.unsplash.com/photo-1554502078-ef0fc409efce?w=900&q=80" alt="ラーメン店の店内" class="w-full aspect-[4/5] object-cover">
+            <img src="images/store-inside.webp" alt="ラーメン店の店内" class="w-full aspect-[4/5] object-cover">
           </div>
           <div class="reveal reveal-delay-2 bg-sumi text-paper p-7" style="box-shadow:8px 8px 0 #1A1714;">
             <h3 class="font-disp text-xl mb-3 text-ki">＊ご利用ガイド</h3>
@@ -796,7 +798,7 @@
                 <circle r="24" fill="#D7281F" stroke="#1A1714" stroke-width="2"/>
                 <text x="0" y="6" text-anchor="middle" fill="#FBF6EC" font-family="Dela Gothic One" font-size="16">麺</text>
               </g>
-              <text x="298" y="180" text-anchor="middle" fill="#1A1714" font-family="Zen Kaku Gothic New" font-size="10" font-weight="700">◯◯ラーメン</text>
+              <text x="298" y="180" text-anchor="middle" fill="#1A1714" font-family="Zen Kaku Gothic New" font-size="10" font-weight="700">らーめん まる福</text>
               <path d="M200,80 Q255,82 285,128" stroke="#D7281F" stroke-width="2" fill="none" stroke-dasharray="5 4"/>
               <text x="245" y="74" fill="#D7281F" font-family="Anton" font-size="13">3 MIN</text>
             </svg>
@@ -841,7 +843,7 @@
         <div class="md:col-span-5">
           <div class="flex items-center gap-3">
             <span class="hanko !w-12 !h-12 text-[15px] leading-none">麺</span>
-            <span class="font-disp text-2xl">◯◯ラーメン<span class="text-[11px] text-ki align-top ml-1">（仮）</span></span>
+            <span class="font-disp text-2xl">らーめん まる福</span>
           </div>
           <p class="mt-4 text-[12px] leading-relaxed text-paper/70 max-w-xs">
             蒲田駅東口 徒歩3分。朝炊きスープの一杯と、町中華の定食。券売機で気軽に、一人でもガッツリ。
@@ -876,7 +878,7 @@
       <div class="h-[2px] bg-paper/20 my-9"></div>
 
       <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] tracking-wider3 text-paper/60">
-        <div>© 2026 ◯◯ラーメン（SNSコンサル提案用サンプル）</div>
+        <div>© 2026 らーめん まる福（制作サンプル・架空の店舗です）</div>
         <div class="flex items-center gap-4">
           <a href="#" class="hover:text-ki">プライバシーポリシー</a>
           <span class="opacity-50">／</span>
